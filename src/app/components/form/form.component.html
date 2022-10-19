@@ -1,0 +1,24 @@
+<div class="form-wrapper">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div *ngFor="let control of data">
+
+      <mat-form-field [id]="control.field" *ngIf="control.type === 'text'" [class.cdk-visually-hidden]="control.hidden">
+        <mat-label>{{control.label}}</mat-label>
+        <input matInput [formControlName]="control.field">
+      </mat-form-field>
+
+      <div *ngIf="form.controls[control.field].invalid && (form.controls[control.field].dirty || form.controls[control.field].touched)" class="err-message">
+        <div *ngIf="form.controls[control.field].errors.required">
+          Field {{control.label}} is required.
+        </div>
+      </div>
+
+      <mat-checkbox [id]="control.field" *ngIf="control.type === 'checkbox'" [class.cdk-visually-hidden]="control.hidden" [formControlName]="control.field" [hidden]="control.hidden">
+        {{control.label}}
+      </mat-checkbox>
+    </div>
+
+    <button mat-raised-button [disabled]="!form.valid" type="submit">Submit</button>
+  </form>
+</div>
